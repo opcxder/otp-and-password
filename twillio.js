@@ -50,6 +50,23 @@ app.post('/', (req, res) => {
         const password = generatePassword();
       
         // Code to send the password 
+        client.verify.v2
+  .services(verifySid)
+  .verifications.create({ to: user_number, channel: "sms" })
+  .then((verification) => console.log(verification.status))
+  .then(() => {
+    const readline = require("readline").createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+      client.verify.v2
+        .services(verifySid)
+        .verificationChecks.create({ to: user_number, code: password })
+        .then((verification_check) => console.log(verification_check.status))
+        .then(() => readline.close());
+   
+        
+    });
         
     }else {
         res.status(400).send('Invalid choice.');
